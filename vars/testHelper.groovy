@@ -1,3 +1,5 @@
+import com.example.teamsSend.MsTeamsHelper
+
 def call() {
-    echo "✅ testHelper.groovy is working"
+    MsTeamsHelper.sayHello()
 }

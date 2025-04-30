@@ -16,7 +16,9 @@
     
 
 
-
+        static void sayHello() {
+        println "Hello from MsTeamsHelper"
+            }
         static String testFromJenkins() {
             return "Jenkins integration working successfully with MsTeamsHelper.groovy"
         }
