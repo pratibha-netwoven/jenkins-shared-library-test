@@ -5,9 +5,12 @@
     class MsTeamsHelper {
 
       /** Azure AD App Details*/
-        static String TENANT_ID = '********-****-****-****-************'
-        static String CLIENT_ID = '********-****-****-****-************'
-        static String CLIENT_SECRET = 'L9c0***********************Tz8='
+        // static String TENANT_ID = '********-****-****-****-************'
+        // static String CLIENT_ID = '********-****-****-****-************'
+        // static String CLIENT_SECRET = 'L9c0***********************Tz8='
+        static String TENANT_ID = '7f943f02-1859-4b47-a7fc-f910aaa46cf7'
+        static String CLIENT_ID = 'bd52488a-5ead-4d22-a601-5c3f5cdcbeb2'
+        static String CLIENT_SECRET = '_sw8Q~vDVB_YGcIjdFa78HxO2qm34scwdiMeTbO2'
         /* Adjust based on required permissions */
         static String SCOPE = "https://service.flow.microsoft.com//.default" /* do not try to fix the URL. "//" is required to generate the required access token*/
                                                                             // "https://graph.microsoft.com/.default"
