@@ -226,7 +226,7 @@
     
     // }
 
-def sendMessageToTeamsUsingWebhook(String url, Map payload) {
+static Map sendMessageToTeamsUsingWebhook(String url, Map payload) {
     def jsonPayload = new groovy.json.JsonBuilder(payload).toPrettyString()
 
     def response = httpRequest(
