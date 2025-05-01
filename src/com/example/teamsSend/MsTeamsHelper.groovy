@@ -8,9 +8,6 @@
         // static String TENANT_ID = '********-****-****-****-************'
         // static String CLIENT_ID = '********-****-****-****-************'
         // static String CLIENT_SECRET = 'L9c0***********************Tz8='
-        static String TENANT_ID = '7f943f02-1859-4b47-a7fc-f910aaa46cf7'
-        static String CLIENT_ID = 'bd52488a-5ead-4d22-a601-5c3f5cdcbeb2'
-        static String CLIENT_SECRET = '_sw8Q~vDVB_YGcIjdFa78HxO2qm34scwdiMeTbO2'
         /* Adjust based on required permissions */
         static String SCOPE = "https://service.flow.microsoft.com//.default" /* do not try to fix the URL. "//" is required to generate the required access token*/
                                                                             // "https://graph.microsoft.com/.default"
@@ -197,37 +194,63 @@ static String fetchAccessToken(String tokenUrl,  String clientId, String clientS
     * - In case of failure, error stream is read and parsed (if possible).
     */
 
-    static Map sendMessageToTeamsUsingWebhook(String url, Map payload) {
-        String jsonPayload = new JsonBuilder(payload).toPrettyString()
-        def jsonResponse = [:]
+    // static Map sendMessageToTeamsUsingWebhook(String url, Map payload) {
+    //     String jsonPayload = new JsonBuilder(payload).toPrettyString()
+    //     def jsonResponse = [:]
 
-        try {
-            def connection = new URL(url).openConnection()
-            // println url
-            // print jsonPayload
-            connection.setRequestMethod("POST")
-            connection.setRequestProperty("Content-Type", "application/json")
-            connection.setDoOutput(true)
+    //     try {
+    //         def connection = new URL(url).openConnection()
+    //         // println url
+    //         // print jsonPayload
+    //         connection.setRequestMethod("POST")
+    //         connection.setRequestProperty("Content-Type", "application/json")
+    //         connection.setDoOutput(true)
 
-            connection.outputStream.withWriter("UTF-8") { writer ->
-                writer.write(jsonPayload)
-            }
+    //         connection.outputStream.withWriter("UTF-8") { writer ->
+    //             writer.write(jsonPayload)
+    //         }
 
-            def responseStream = (connection.responseCode in [200, 202]) ?
-                    connection.inputStream : connection.errorStream
+    //         def responseStream = (connection.responseCode in [200, 202]) ?
+    //                 connection.inputStream : connection.errorStream
 
-            def responseText = responseStream.text
-            println "Raw Response: $responseText"
+    //         def responseText = responseStream.text
+    //         println "Raw Response: $responseText"
 
-            jsonResponse = new JsonSlurper().parseText(responseText)
+    //         jsonResponse = new JsonSlurper().parseText(responseText)
 
-        } catch (Exception e) {
-            println "Exception during API call: ${e.message}"
-        }
+    //     } catch (Exception e) {
+    //         println "Exception during API call: ${e.message}"
+    //     }
 
-        return jsonResponse
+    //     return jsonResponse
     
+    // }
+
+def sendMessageToTeamsUsingWebhook(String url, Map payload) {
+    def jsonPayload = new groovy.json.JsonBuilder(payload).toPrettyString()
+
+    def response = httpRequest(
+        httpMode: 'POST',
+        url: url,
+        contentType: 'APPLICATION_JSON',
+        requestBody: jsonPayload,
+        validResponseCodes: '200:299',
+        consoleLogResponseBody: true
+    )
+
+    echo "Response Code: ${response.status}"
+    echo "Response Body: ${response.content}"
+
+    // Optionally parse JSON response
+    def parsedResponse = [:]
+    try {
+        parsedResponse = new groovy.json.JsonSlurper().parseText(response.content)
+    } catch (e) {
+        echo "Non-JSON response or parse error: ${e.message}"
     }
+
+    return parsedResponse
+}
 
 
 
