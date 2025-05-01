@@ -8,10 +8,10 @@
         // static String TENANT_ID = '********-****-****-****-************'
         // static String CLIENT_ID = '********-****-****-****-************'
         // static String CLIENT_SECRET = 'L9c0***********************Tz8='
-        /* Adjust based on required permissions */
-        static String SCOPE = "https://service.flow.microsoft.com//.default" /* do not try to fix the URL. "//" is required to generate the required access token*/
-                                                                            // "https://graph.microsoft.com/.default"
-        static String  TOKEN_URL ="https://login.microsoftonline.com/${TENANT_ID}/oauth2/v2.0/token"
+        // /* Adjust based on required permissions */
+        // static String SCOPE = "https://service.flow.microsoft.com//.default" /* do not try to fix the URL. "//" is required to generate the required access token*/
+        //                                                                     // "https://graph.microsoft.com/.default"
+        // static String  TOKEN_URL ="https://login.microsoftonline.com/********-****-****-****-************/oauth2/v2.0/token"
 
     
 
@@ -83,35 +83,35 @@
 }
 
 
-   static def teamsSend_authenticated(String teamsWebhookUrl, 
-                        String type,
-                        String teamsTeamName,
-                        String teamsChannelName, 
-                        String threadId, 
-                        String replyId, 
-                        String status, 
-                        String msgTitle,
-                        String msgBody
- ) {
-            //  Step 1: Get the URL
-            String url = teamsWebhookUrl
+//    static def teamsSend_authenticated(String teamsWebhookUrl, 
+//                         String type,
+//                         String teamsTeamName,
+//                         String teamsChannelName, 
+//                         String threadId, 
+//                         String replyId, 
+//                         String status, 
+//                         String msgTitle,
+//                         String msgBody
+//  ) {
+//             //  Step 1: Get the URL
+//             String url = teamsWebhookUrl
 
-            //  Step 2: Build the Payload for creating the msteams post with Adaptive Card based on the type of message
-            def payload = buildTeamsMessagePayloadWithAdaptiveCard(type,
-                                                        teamsTeamName,
-                                                        teamsChannelName, 
-                                                        threadId, 
-                                                        replyId, 
-                                                        status, 
-                                                        msgTitle,
-                                                        msgBody)
+//             //  Step 2: Build the Payload for creating the msteams post with Adaptive Card based on the type of message
+//             def payload = buildTeamsMessagePayloadWithAdaptiveCard(type,
+//                                                         teamsTeamName,
+//                                                         teamsChannelName, 
+//                                                         threadId, 
+//                                                         replyId, 
+//                                                         status, 
+//                                                         msgTitle,
+//                                                         msgBody)
 
-            // //  Step 3: Call API and return parsed response
-            // return sendMessageToTeamsUsingWebhook(url, payload)
+//             // //  Step 3: Call API and return parsed response
+//             // return sendMessageToTeamsUsingWebhook(url, payload)
 
-            //  Step 3: Call API and return parsed response
-            return sendMessageToTeamsUsingWebhook_authenticated(url, payload)
-}
+//             //  Step 3: Call API and return parsed response
+//             return sendMessageToTeamsUsingWebhook_authenticated(url, payload)
+// }
 
 /**
  * Fetches an OAuth 2.0 access token using the Client Credentials grant type.
@@ -136,41 +136,41 @@
  * - Access token string (if successful).
  * - Null (if token retrieval fails).
  */
-static String fetchAccessToken(String tokenUrl,  String clientId, String clientSecret, String scope) {
+// static String fetchAccessToken(String tokenUrl,  String clientId, String clientSecret, String scope) {
     
-    def url = new URL(tokenUrl)
-    def connection = url.openConnection()
-    connection.setRequestMethod("POST")
-    connection.setDoOutput(true)
-    connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded")
+//     def url = new URL(tokenUrl)
+//     def connection = url.openConnection()
+//     connection.setRequestMethod("POST")
+//     connection.setDoOutput(true)
+//     connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded")
 
-    def body = [
-        client_id    : clientId,
-        client_secret: clientSecret,
-        scope        : scope,
-        grant_type   : "client_credentials"
-    ].collect { k, v -> "${URLEncoder.encode(k, "UTF-8")}=${URLEncoder.encode(v, "UTF-8")}" }
-     .join('&')
+//     def body = [
+//         client_id    : clientId,
+//         client_secret: clientSecret,
+//         scope        : scope,
+//         grant_type   : "client_credentials"
+//     ].collect { k, v -> "${URLEncoder.encode(k, "UTF-8")}=${URLEncoder.encode(v, "UTF-8")}" }
+//      .join('&')
 
-        // println "fetchAccessToken"
-        // println body
-    connection.outputStream.withWriter("UTF-8") { writer ->
-        writer << body
-    }
+//         // println "fetchAccessToken"
+//         // println body
+//     connection.outputStream.withWriter("UTF-8") { writer ->
+//         writer << body
+//     }
 
-    def responseCode = connection.responseCode
-    def responseStream = (responseCode >= 200 && responseCode < 300) ? connection.inputStream : connection.errorStream
-    def responseText = responseStream.text
+//     def responseCode = connection.responseCode
+//     def responseStream = (responseCode >= 200 && responseCode < 300) ? connection.inputStream : connection.errorStream
+//     def responseText = responseStream.text
 
-    if (responseCode == 200) {
-        def json = new JsonSlurper().parseText(responseText)
-        println json.access_token
-        return json.access_token
-    } else {
-        println "❌ Failed to fetch token. Status: ${responseCode}, Response: ${responseText}"
-        return null
-    }
-}
+//     if (responseCode == 200) {
+//         def json = new JsonSlurper().parseText(responseText)
+//         println json.access_token
+//         return json.access_token
+//     } else {
+//         println "❌ Failed to fetch token. Status: ${responseCode}, Response: ${responseText}"
+//         return null
+//     }
+// }
 
    
         
@@ -433,42 +433,42 @@ static Map constructAdaptiveCardPayloadForTeamsPost(String type,
     * - In case of failure or exception, logs the error and returns an empty map.
     */
 
-    static Map sendMessageToTeamsUsingWebhook_authenticated(String url, Map payload) {
-        String jsonPayload = new JsonBuilder(payload).toPrettyString()
-        def jsonResponse = [:]
+    // static Map sendMessageToTeamsUsingWebhook_authenticated(String url, Map payload) {
+    //     String jsonPayload = new JsonBuilder(payload).toPrettyString()
+    //     def jsonResponse = [:]
 
-        try {
+    //     try {
 
 
-            String accessToken = fetchAccessToken(TOKEN_URL,CLIENT_ID,CLIENT_SECRET,SCOPE)
-            println "accessToken"
-            println accessToken
+    //         String accessToken = fetchAccessToken(TOKEN_URL,CLIENT_ID,CLIENT_SECRET,SCOPE)
+    //         println "accessToken"
+    //         println accessToken
 
-            def connection = new URL(url).openConnection()
-            // println url
-            // print jsonPayload
-            connection.setRequestMethod("POST")
-            connection.setRequestProperty("Authorization", "Bearer ${accessToken}")
-            connection.setRequestProperty("Content-Type", "application/json")
-            connection.setDoOutput(true)
+    //         def connection = new URL(url).openConnection()
+    //         // println url
+    //         // print jsonPayload
+    //         connection.setRequestMethod("POST")
+    //         connection.setRequestProperty("Authorization", "Bearer ${accessToken}")
+    //         connection.setRequestProperty("Content-Type", "application/json")
+    //         connection.setDoOutput(true)
 
-            connection.outputStream.withWriter("UTF-8") { writer ->
-                writer.write(jsonPayload)
-            }
+    //         connection.outputStream.withWriter("UTF-8") { writer ->
+    //             writer.write(jsonPayload)
+    //         }
 
-            def responseStream = (connection.responseCode in [200, 202]) ?
-                    connection.inputStream : connection.errorStream
+    //         def responseStream = (connection.responseCode in [200, 202]) ?
+    //                 connection.inputStream : connection.errorStream
 
-            def responseText = responseStream.text
-            println "Raw Response: $responseText"
+    //         def responseText = responseStream.text
+    //         println "Raw Response: $responseText"
 
-            jsonResponse = new JsonSlurper().parseText(responseText)
+    //         jsonResponse = new JsonSlurper().parseText(responseText)
 
-        } catch (Exception e) {
-            println "Exception during API call: ${e.message}"
-        }
+    //     } catch (Exception e) {
+    //         println "Exception during API call: ${e.message}"
+    //     }
 
-        return jsonResponse
+    //     return jsonResponse
     
-    }
+    // }
 }
