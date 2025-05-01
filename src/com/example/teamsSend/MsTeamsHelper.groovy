@@ -225,7 +225,7 @@
     //     return jsonResponse
     
     // }
-
+@NonCPS
 static Map sendMessageToTeamsUsingWebhook(String url, Map payload) {
     def jsonPayload = new groovy.json.JsonBuilder(payload).toPrettyString()
 
