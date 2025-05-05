@@ -37,6 +37,7 @@ class MsTeamsHelper {
         //  Step 1: Build the Payload for creating the msteams post with Adaptive Card based on the type of message
         def payload = buildTeamsMessagePayloadWithAdaptiveCard(type, teamsTeamName, teamsChannelName, threadId, replyId, status, msgTitle, msgBody)
 
+        def jsonPayload = new groovy.json.JsonBuilder(payload).toPrettyString()
         // Step 2: Call API and return parsed response
         def response = httpRequestClosure(
             httpMode: 'POST',
