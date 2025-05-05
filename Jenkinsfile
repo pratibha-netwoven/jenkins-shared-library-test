@@ -30,7 +30,8 @@ pipeline {
                         '',
                         'loading',
                         'Build Notification from Jenkins 05May2025',
-                        'Build completed successfully from Jenkins!'
+                        'Build completed successfully from Jenkins!',
+                        { args -> httpRequest(args) } // Pass httpRequest as a closure
                     )
                     echo "Root Post Thread ID: ${response.threadId}"
                     
@@ -44,7 +45,8 @@ pipeline {
                         '',
                         'loading',
                         "Build ${BUILD_PATH} initial reply.",
-                        "Build ${BUILD_PATH} initial reply."
+                        "Build ${BUILD_PATH} initial reply.",
+                        { args -> httpRequest(args) } // Pass httpRequest as a closure
                     )
 
                     echo "Reply Thread Id: ${replyteamsResponse.threadId}"

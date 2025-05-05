@@ -1,7 +1,7 @@
 import groovy.json.JsonBuilder
 import groovy.json.JsonSlurper
 
-class MsTeamsHelper {    
+class MsTeamsHelperBackUp {    
      /**
     * Sends a formatted Adaptive Card message to a Microsoft Teams channel via webhook anonymous.
     *
@@ -32,44 +32,37 @@ class MsTeamsHelper {
     *   "threadId" : "<<threadId>>"  // Message ID of the root post (thread ID).
     * }
     */
-    def teamsSend(String teamsWebhookUrl, String type, String teamsTeamName, String teamsChannelName, String threadId, String replyId, String status, String msgTitle, String msgBody, Closure httpRequestClosure) 
-    {   
-        //  Step 1: Build the Payload for creating the msteams post with Adaptive Card based on the type of message
+    def teamsSend(String teamsWebhookUrl, String type, String teamsTeamName, String teamsChannelName, String threadId, String replyId, String status, String msgTitle, String msgBody) 
+    {
+        //  Step 1: Get the URL
+        String url = teamsWebhookUrl
+
+        //  Step 2: Build the Payload for creating the msteams post with Adaptive Card based on the type of message
         def payload = buildTeamsMessagePayloadWithAdaptiveCard(type, teamsTeamName, teamsChannelName, threadId, replyId, status, msgTitle, msgBody)
 
-        // Step 2: Call API and return parsed response
-        def response = httpRequestClosure(
+        // //  Step 3: Call API and return parsed response
+        def response = sendMessageToTeamsUsingWebhook(url, payload)        
+        return response        
+    }
+   
+    def sendMessageToTeamsUsingWebhook(String url, Map payload) {       
+
+        def jsonPayload = new groovy.json.JsonBuilder(payload).toPrettyString()
+
+        def response = httpRequest(
             httpMode: 'POST',
-            url: teamsWebhookUrl,
+            url: url,
             contentType: 'APPLICATION_JSON',
             requestBody: jsonPayload,
             validResponseCodes: '200:299',
             consoleLogResponseBody: true
         )
 
-        echo "Response Body from code: ${response.content.toString()}"  
+        echo "Response Body from code: ${response.content.toString()}" // Updated to use content.toString()       
+
         def parsedTeamsResponse = new JsonSlurper().parseText(response.content.toString()) as HashMap
         return parsedTeamsResponse
     }
-   
-    // def sendMessageToTeamsUsingWebhook(String url, Map payload) {       
-
-    //     def jsonPayload = new groovy.json.JsonBuilder(payload).toPrettyString()
-
-    //     def response = httpRequest(
-    //         httpMode: 'POST',
-    //         url: url,
-    //         contentType: 'APPLICATION_JSON',
-    //         requestBody: jsonPayload,
-    //         validResponseCodes: '200:299',
-    //         consoleLogResponseBody: true
-    //     )
-
-    //     echo "Response Body from code: ${response.content.toString()}" // Updated to use content.toString()       
-
-    //     def parsedTeamsResponse = new JsonSlurper().parseText(response.content.toString()) as HashMap
-    //     return parsedTeamsResponse
-    // }
 
     /**
     * Builds the final message payload to be sent to Microsoft Teams via webhook.
