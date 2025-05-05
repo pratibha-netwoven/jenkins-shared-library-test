@@ -55,64 +55,64 @@ def constructAdaptiveCardPayloadForTeamsPost(String type,
                                              String status,
                                              String msgTitle,
                                              String msgBody) {
-    def iconurl = "https://i.gifer.com/ZKZg.gif"
-    def containerStyle = "default"
-    def textSize = "medium"
-    def fontColor = "default"
+    def iconurl = 'https://i.gifer.com/ZKZg.gif'
+    def containerStyle = 'default'
+    def textSize = 'medium'
+    def fontColor = 'default'
 
     switch (status) {
         case 'loading':
-            iconurl = "https://i.gifer.com/ZKZg.gif"; break
+            iconurl = 'https://i.gifer.com/ZKZg.gif'; break
         case 'success':
-            iconurl = "https://cdn-icons-png.flaticon.com/512/845/845646.png"; break
+            iconurl = 'https://cdn-icons-png.flaticon.com/512/845/845646.png'; break
         case 'failure':
-            iconurl = "https://cdn-icons-png.flaticon.com/512/1828/1828665.png"; break
+            iconurl = 'https://cdn-icons-png.flaticon.com/512/1828/1828665.png'; break
     }
 
     switch (type) {
         case 'post':
-            containerStyle = "default"
-            textSize = "large"
-            fontColor = "good"
+            containerStyle = 'default'
+            textSize = 'large'
+            fontColor = 'good'
             break
         case 'reply':
-            containerStyle = "accent"
-            textSize = "medium"
-            fontColor = "default"
+            containerStyle = 'accent'
+            textSize = 'medium'
+            fontColor = 'default'
             break
     }
 
     return [
-        contentType: "application/vnd.microsoft.card.adaptive",
+        contentType: 'application/vnd.microsoft.card.adaptive',
         content: [
-            type    : "AdaptiveCard",
-            $schema : "http://adaptivecards.io/schemas/adaptive-card.json",
-            version : "1.4",
-            msTeams : [ width: "Full" ],
+            type    : 'AdaptiveCard',
+            $schema : 'http://adaptivecards.io/schemas/adaptive-card.json',
+            version : '1.4',
+            msTeams : [ width: 'Full' ],
             body    : [
                 [
-                    type : "Container",
+                    type : 'Container',
                     style: containerStyle,
                     bleed: true,
                     items: [[
-                        type   : "ColumnSet",
+                        type   : 'ColumnSet',
                         columns: [[
-                            type : "Column",
-                            width: "auto",
+                            type : 'Column',
+                            width: 'auto',
                             items: [[
-                                type : "Image",
+                                type : 'Image',
                                 url  : iconurl,
-                                size : "medium",
-                                width: "20px",
-                                style: "default"
+                                size : 'medium',
+                                width: '20px',
+                                style: 'default'
                             ]]
                         ],[
-                            type : "Column",
-                            width: "stretch",
+                            type : 'Column',
+                            width: 'stretch',
                             items: [[
-                                type : "TextBlock",
+                                type : 'TextBlock',
                                 text : msgTitle,
-                                weight: "bolder",
+                                weight: 'bolder',
                                 size : textSize,
                                 wrap : true,
                                 color: fontColor
@@ -121,17 +121,17 @@ def constructAdaptiveCardPayloadForTeamsPost(String type,
                     ]]
                 ],
                 [
-                    type : "Container",
+                    type : 'Container',
                     items: [[
-                        type   : "ColumnSet",
+                        type   : 'ColumnSet',
                         columns: [[
-                            type : "Column",
+                            type : 'Column',
                             items: [[
-                                type : "TextBlock",
+                                type : 'TextBlock',
                                 text : msgBody,
-                                weight: "bolder",
-                                size : "default",
-                                color: "default",
+                                weight: 'bolder',
+                                size : 'default',
+                                color: 'default',
                                 wrap : true
                             ]]
                         ]]
