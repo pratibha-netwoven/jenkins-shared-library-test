@@ -1,5 +1,6 @@
 // @Library('pk-shared-lib')
 // import groovy.json.JsonSlurper
+import com.example.teamsSend.MsTeamsHelper
 
 pipeline {
     agent any
@@ -18,7 +19,8 @@ pipeline {
             steps {
                 script {
                     // teams send for root post
-                    def response = teamsSend(
+                    def teams = new MsTeamsHelper()
+                    def response = teams.teamsSend(
                         "${env.TEAMS_WEBHOOK_URL}",
                             'post',
                         "${env.TEAMS_TEAM_NAME}",
@@ -32,7 +34,7 @@ pipeline {
                     echo "Root Post Thread ID: ${response.threadId}"
                     
 
-                    def replyteamsResponse = teamsSend(
+                    def replyteamsResponse = teams.teamsSend(
                         "${env.TEAMS_WEBHOOK_URL}",
                         'reply',
                         "${env.TEAMS_TEAM_NAME}",

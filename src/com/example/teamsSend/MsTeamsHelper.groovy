@@ -48,12 +48,8 @@ class MsTeamsHelper {
                                                         msgBody)
 
         // //  Step 3: Call API and return parsed response
-        def response = sendMessageToTeamsUsingWebhook(url, payload)
-
-        // echo "Response from Teams: ${response}"
-        // echo "Reply ID: ${response.replyId}"
-        // echo "Thread ID: ${response.threadId}"
-        return response
+        def response = sendMessageToTeamsUsingWebhook(url, payload)        
+        return response        
     }
 
     @NonCPS
@@ -84,7 +80,8 @@ class MsTeamsHelper {
         // }
         // return parsedResponse
 
-        return response
+        def parsedTeamsResponse = new JsonSlurper().parseText(response.content) as HashMap
+        return parsedTeamsResponse
     }
 
     /**
