@@ -1,5 +1,3 @@
-package com.example.teamsSend
-
 import groovy.json.JsonBuilder
 import groovy.json.JsonSlurper
 
@@ -249,6 +247,4 @@ class MsTeamsHelper {
             ]
         ]
     }
-    
-
 }
