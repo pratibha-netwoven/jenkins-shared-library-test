@@ -79,7 +79,7 @@ class MsTeamsHelper {
         * @return                A Map representing the Teams-compatible Adaptive Card payload.
         *
     */
-    @NonCPS
+   
     def buildTeamsMessagePayloadWithAdaptiveCard(String type, String teamsTeamName, String teamsChannelName, String threadId, String replyId, String status, String msgTitle, String msgBody) 
     {
 
@@ -103,7 +103,7 @@ class MsTeamsHelper {
 
     */
 
-    @NonCPS
+ 
     def constructAdaptiveCardPayloadForTeamsPost(String type, String status, String msgTitle, String msgBody) 
     {
 
