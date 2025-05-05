@@ -1,4 +1,5 @@
 import groovy.json.JsonBuilder
+import groovy.json.JsonSlurper
 
 def call(String teamsWebhookUrl,
          String type,
@@ -28,7 +29,9 @@ def call(String teamsWebhookUrl,
 
     echo "Response from Teams in teamsSend.groovy file: ${response}"
 
-    return response
+    def parsedTeamsResponse = new JsonSlurper().parseText(response.content) as HashMap
+
+    return parsedTeamsResponse
 }
 
 def buildTeamsMessagePayloadWithAdaptiveCard(String type,

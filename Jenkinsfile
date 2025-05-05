@@ -1,5 +1,5 @@
 // @Library('pk-shared-lib')
-import groovy.json.JsonSlurper
+// import groovy.json.JsonSlurper
 
 pipeline {
     agent any
@@ -17,58 +17,35 @@ pipeline {
         stage('Send Teams Message') {
             steps {
                 script {
-                    try {
-
-                        // teams send for root post
-                        def response = teamsSend(
+                    // teams send for root post
+                    def response = teamsSend(
                         "${env.TEAMS_WEBHOOK_URL}",
                             'post',
                         "${env.TEAMS_TEAM_NAME}",
-                            "${env.TEAMS_CHANNEL_NAME}",
-                            '',
-                            '',
-                            'loading',
-                            'Build Notification from Jenkins 05May2025',
-                            'Build completed successfully from Jenkins!'
-                        )
-
-                        if (!response?.content) {
-                            error("Response content is null or empty!")
-                        }
-
-                        echo "Root Response: ${response.content}"
-                        
-                        // Parse the response content
-                        def parsedTeamsResponse = new JsonSlurper().parseText(response.content) as HashMap
-                        echo "Thread ID: ${parsedTeamsResponse.threadId}"
-                        
-
-                        def replyteamsResponse = teamsSend(
-                            "${env.TEAMS_WEBHOOK_URL}",
-                            'reply',
-                            "${env.TEAMS_TEAM_NAME}",
-                            "${env.TEAMS_CHANNEL_NAME}",
-                            parsedTeamsResponse.threadId,
-                            '',
-                            'loading',
-                            "Build ${BUILD_PATH} initial reply.",
-                            "Build ${BUILD_PATH} initial reply."
-                        )
-
-                        echo "First reply posted"
-                        echo "${replyteamsResponse}"
-
-                        // Convert LazyMap to HashMap
-                        if (replyteamsResponse?.content) {
-                            def parsedResponse = new JsonSlurper().parseText(replyteamsResponse.content) as HashMap
-                            echo "Parsed threadId: ${parsedResponse.threadId}"
-                        } else {
-                            error("replyteamsResponse.content is null or empty!")
-                        }
-                    } catch (exc) {
-                        throw exc
-                    }
+                        "${env.TEAMS_CHANNEL_NAME}",
+                        '',
+                        '',
+                        'loading',
+                        'Build Notification from Jenkins 05May2025',
+                        'Build completed successfully from Jenkins!'
+                    )
+                    echo "Thread ID: ${parsedTeamsResponse.threadId}"
                     
+
+                    def replyteamsResponse = teamsSend(
+                        "${env.TEAMS_WEBHOOK_URL}",
+                        'reply',
+                        "${env.TEAMS_TEAM_NAME}",
+                        "${env.TEAMS_CHANNEL_NAME}",
+                        parsedTeamsResponse.threadId,
+                        '',
+                        'loading',
+                        "Build ${BUILD_PATH} initial reply.",
+                        "Build ${BUILD_PATH} initial reply."
+                    )
+
+                    echo "Reply Teams Response threadId: ${replyteamsResponse.threadId}"
+                    echo "Reply Teams Response replyid: ${replyteamsResponse.replyId}"   
                 }
             }
         }
