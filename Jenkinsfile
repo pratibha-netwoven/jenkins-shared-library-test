@@ -29,7 +29,7 @@ pipeline {
                         'Build Notification from Jenkins 05May2025',
                         'Build completed successfully from Jenkins!'
                     )
-                    echo "Thread ID: ${parsedTeamsResponse.threadId}"
+                    echo "Root Post Thread ID: ${response.threadId}"
                     
 
                     def replyteamsResponse = teamsSend(
@@ -37,15 +37,15 @@ pipeline {
                         'reply',
                         "${env.TEAMS_TEAM_NAME}",
                         "${env.TEAMS_CHANNEL_NAME}",
-                        parsedTeamsResponse.threadId,
+                        response.threadId,
                         '',
                         'loading',
                         "Build ${BUILD_PATH} initial reply.",
                         "Build ${BUILD_PATH} initial reply."
                     )
 
-                    echo "Reply Teams Response threadId: ${replyteamsResponse.threadId}"
-                    echo "Reply Teams Response replyid: ${replyteamsResponse.replyId}"   
+                    echo "Reply Thread Id: ${replyteamsResponse.threadId}"
+                    echo "Reply Reply Id: ${replyteamsResponse.replyId}"   
                 }
             }
         }
