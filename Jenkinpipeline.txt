@@ -1,11 +1,10 @@
-@Library('pk-shared-lib') _
-
+@Library('pk-shared-lib')
 import com.example.teamsSend.MsTeamsHelper
 
 pipeline {
     agent any
 
- environment {
+    environment {
         // Teams configuration
         // TEAMS_WEBHOOK_URL = credentials('teams-webhook-url')
         TEAMS_WEBHOOK_URL = "https://prod-75.westus.logic.azure.com:443/workflows/3e0509a69771439d88e32ace24787150/triggers/manual/paths/invoke?api-version=2016-06-01"
