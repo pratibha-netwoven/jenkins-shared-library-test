@@ -65,9 +65,9 @@ class MsTeamsHelper {
         // //  Step 3: Call API and return parsed response
         def response = sendMessageToTeamsUsingWebhook(url, payload)
 
-        echo "Response from Teams: ${response}"
-        echo "Reply ID: ${response.replyId}"
-        echo "Thread ID: ${response.threadId}"
+        // echo "Response from Teams: ${response}"
+        // echo "Reply ID: ${response.replyId}"
+        // echo "Thread ID: ${response.threadId}"
         return response
     }
 
@@ -88,17 +88,18 @@ class MsTeamsHelper {
         echo "Response Code: ${response.status}"
         echo "Response Body from code: ${response}"
 
-        Optionally parse JSON response
-        def parsedResponse = [:]
-        try {
-            // Parse the response content
-            def jsonSlurper = new JsonSlurper()
-            parsedResponse = jsonSlurper.parseText(response)
-        } catch (e) {
-            echo "Non-JSON response or parse error: ${e.message}"
-        }
+        // Optionally parse JSON response
+        // def parsedResponse = [:]
+        // try {
+        //     // Parse the response content
+        //     def jsonSlurper = new JsonSlurper()
+        //     parsedResponse = jsonSlurper.parseText(response)
+        // } catch (e) {
+        //     echo "Non-JSON response or parse error: ${e.message}"
+        // }
+        // return parsedResponse
 
-        return parsedResponse
+        return response
     }
 
     /**
