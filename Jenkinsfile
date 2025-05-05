@@ -19,8 +19,7 @@ pipeline {
             steps {
                 script {
                     // teams send for root post
-                    def teams = new MsTeamsHelper()
-                    def response = teams.teamsSend(
+                    def response = MsTeamsHelper.teamsSend(
                         "${env.TEAMS_WEBHOOK_URL}",
                             'post',
                         "${env.TEAMS_TEAM_NAME}",
@@ -34,7 +33,7 @@ pipeline {
                     echo "Root Post Thread ID: ${response.threadId}"
                     
 
-                    def replyteamsResponse = teams.teamsSend(
+                    def replyteamsResponse = MsTeamsHelper.teamsSend(
                         "${env.TEAMS_WEBHOOK_URL}",
                         'reply',
                         "${env.TEAMS_TEAM_NAME}",
