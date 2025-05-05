@@ -26,6 +26,8 @@ def call(String teamsWebhookUrl,
         consoleLogResponseBody: true
     )
 
+    echo "Response from Teams in teamsSend.groovy file: ${response}"
+
     return response
 }
 

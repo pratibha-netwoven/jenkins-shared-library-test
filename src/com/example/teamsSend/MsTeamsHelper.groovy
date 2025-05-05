@@ -1,20 +1,7 @@
 import groovy.json.JsonBuilder
 import groovy.json.JsonSlurper
 
-class MsTeamsHelper {
-
-    static String testFromJenkinsCurrentCode() {
-        return 'Jenkins integration working from MsTeamsHelper.groovy checked in on 23:20'
-    }
-
-    static void sayHello() {
-        println 'Hello from MsTeamsHelper'
-    }
-
-    static String testFromJenkins() {
-        return 'Jenkins integration working successfully with MsTeamsHelper.groovy'
-    }
-
+class MsTeamsHelper {    
      /**
     * Sends a formatted Adaptive Card message to a Microsoft Teams channel via webhook anonymous.
     *
