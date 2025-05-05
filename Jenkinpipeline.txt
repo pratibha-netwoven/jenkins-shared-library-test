@@ -1,0 +1,59 @@
+@Library('pk-shared-lib') _
+
+import com.example.teamsSend.MsTeamsHelper
+
+pipeline {
+    agent any
+
+ environment {
+        // Teams configuration
+        // TEAMS_WEBHOOK_URL = credentials('teams-webhook-url')
+        TEAMS_WEBHOOK_URL = "https://prod-75.westus.logic.azure.com:443/workflows/3e0509a69771439d88e32ace24787150/triggers/manual/paths/invoke?api-version=2016-06-01"
+        TEAMS_TEAM_NAME = 'Slack Transition Test Team'
+        TEAMS_CHANNEL_NAME = 'TestReplyPostsUpdate'
+    }
+    
+    stages {
+        stage('Test Shared Lib') {
+            steps {
+                script {
+                   testHelper()
+                }
+            }
+        }
+        
+        stage('Test Jenkins Integration') {
+            steps {
+                script {
+                    def result = MsTeamsHelper.testFromJenkins()
+                    echo result
+                }
+            }
+        }
+        
+        stage('Init pipeline') {
+            steps {
+                script {
+                   
+                    echo "${env.TEAMS_WEBHOOK_URL}"
+                    echo "${env.TEAMS_TEAM_NAME}"
+                    echo "${env.TEAMS_CHANNEL_NAME}"
+                    echo "Started mlp-gcp-ops » ${env.GIT_BRANCH} #${BUILD_NUMBER}"
+                    echo "Build started. [Open Jenkins](${RUN_DISPLAY_URL})"
+                    // def teamsResponse = msTeamsHelper.teamsSend(
+                    MsTeamsHelper.teamsSend(
+                        "${env.TEAMS_WEBHOOK_URL}",
+                        "post",
+                        "${env.TEAMS_TEAM_NAME}",
+                        "${env.TEAMS_CHANNEL_NAME}",
+                        "",
+                        "",
+                        "loading",
+                        "Started mlp-gcp-ops » ${env.GIT_BRANCH} #${BUILD_NUMBER}",
+                        "Build started. [Open Jenkins](${RUN_DISPLAY_URL})"
+                    )
+                }
+            }
+        }
+    }
+}
