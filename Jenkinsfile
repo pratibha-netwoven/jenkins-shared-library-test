@@ -18,8 +18,10 @@ pipeline {
         stage('Send Teams Message') {
             steps {
                 script {
+                    // Create an instance of MsTeamsHelper
+                    def teamsHelper = new MsTeamsHelper()
                     // teams send for root post
-                    def response = MsTeamsHelper.teamsSend(
+                    def response = teamsHelper.teamsSend(
                         "${env.TEAMS_WEBHOOK_URL}",
                             'post',
                         "${env.TEAMS_TEAM_NAME}",
@@ -29,12 +31,11 @@ pipeline {
                         'loading',
                         'Build Notification from Jenkins 05May2025',
                         'Build completed successfully from Jenkins!'
-                    ),
-                    { args -> httpRequest(args) } // Pass the httpRequest method as a closure
+                    )
                     echo "Root Post Thread ID: ${response.threadId}"
                     
 
-                    def replyteamsResponse = MsTeamsHelper.teamsSend(
+                    def replyteamsResponse = teamsHelper.teamsSend(
                         "${env.TEAMS_WEBHOOK_URL}",
                         'reply',
                         "${env.TEAMS_TEAM_NAME}",
@@ -44,8 +45,7 @@ pipeline {
                         'loading',
                         "Build ${BUILD_PATH} initial reply.",
                         "Build ${BUILD_PATH} initial reply."
-                    ),
-                    { args -> httpRequest(args) } // Pass the httpRequest method as a closure
+                    )
 
                     echo "Reply Thread Id: ${replyteamsResponse.threadId}"
                     echo "Reply Reply Id: ${replyteamsResponse.replyId}"   

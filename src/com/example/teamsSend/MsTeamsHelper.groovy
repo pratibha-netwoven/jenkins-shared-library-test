@@ -32,7 +32,7 @@ class MsTeamsHelper {
     *   "threadId" : "<<threadId>>"  // Message ID of the root post (thread ID).
     * }
     */
-    static def teamsSend(String teamsWebhookUrl, String type, String teamsTeamName, String teamsChannelName, String threadId, String replyId, String status, String msgTitle, String msgBody) 
+    def teamsSend(String teamsWebhookUrl, String type, String teamsTeamName, String teamsChannelName, String threadId, String replyId, String status, String msgTitle, String msgBody) 
     {
         //  Step 1: Get the URL
         String url = teamsWebhookUrl
@@ -53,11 +53,11 @@ class MsTeamsHelper {
     }
 
     @NonCPS
-    static Map sendMessageToTeamsUsingWebhook(String url, Map payload) {       
+    def sendMessageToTeamsUsingWebhook(String url, Map payload) {       
 
         def jsonPayload = new groovy.json.JsonBuilder(payload).toPrettyString()
 
-        def response = httpRequestClosure(
+        def response = httpRequest(
             httpMode: 'POST',
             url: url,
             contentType: 'APPLICATION_JSON',
@@ -99,7 +99,7 @@ class MsTeamsHelper {
         * @return                A Map representing the Teams-compatible Adaptive Card payload.
         *
     */
-    static Map buildTeamsMessagePayloadWithAdaptiveCard(String type, String teamsTeamName, String teamsChannelName, String threadId, String replyId, String status, String msgTitle, String msgBody) 
+    def buildTeamsMessagePayloadWithAdaptiveCard(String type, String teamsTeamName, String teamsChannelName, String threadId, String replyId, String status, String msgTitle, String msgBody) 
     {
 
         def adaptiveCardAttachment = constructAdaptiveCardPayloadForTeamsPost(type, status, msgTitle, msgBody)
@@ -122,7 +122,7 @@ class MsTeamsHelper {
 
     */
 
-    static Map constructAdaptiveCardPayloadForTeamsPost(String type, String status, String msgTitle, String msgBody) 
+    def constructAdaptiveCardPayloadForTeamsPost(String type, String status, String msgTitle, String msgBody) 
     {
 
         String iconurl = 'https://i.gifer.com/ZKZg.gif'
