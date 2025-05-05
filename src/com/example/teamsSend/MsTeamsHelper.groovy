@@ -47,8 +47,7 @@ class MsTeamsHelper {
             validResponseCodes: '200:299',
             consoleLogResponseBody: true
         )
-
-        echo "Response Body from code: ${response.content.toString()}"  
+        
         def parsedTeamsResponse = new JsonSlurper().parseText(response.content.toString()) as HashMap
         return parsedTeamsResponse
     }
