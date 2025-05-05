@@ -38,14 +38,7 @@ class MsTeamsHelper {
         String url = teamsWebhookUrl
 
         //  Step 2: Build the Payload for creating the msteams post with Adaptive Card based on the type of message
-        def payload = buildTeamsMessagePayloadWithAdaptiveCard(type,
-                                                        teamsTeamName,
-                                                        teamsChannelName,
-                                                        threadId,
-                                                        replyId,
-                                                        status,
-                                                        msgTitle,
-                                                        msgBody)
+        def payload = buildTeamsMessagePayloadWithAdaptiveCard(type, teamsTeamName, teamsChannelName, threadId, replyId, status, msgTitle, msgBody)
 
         // //  Step 3: Call API and return parsed response
         def response = sendMessageToTeamsUsingWebhook(url, payload)        
@@ -65,19 +58,7 @@ class MsTeamsHelper {
             consoleLogResponseBody: true
         )
 
-        echo "Response Code: ${response.status}"
-        echo "Response Body from code: ${response.content.toString()}" // Updated to use content.toString()
-
-        // Optionally parse JSON response
-        // def parsedResponse = [:]
-        // try {
-        //     // Parse the response content
-        //     def jsonSlurper = new JsonSlurper()
-        //     parsedResponse = jsonSlurper.parseText(response)
-        // } catch (e) {
-        //     echo "Non-JSON response or parse error: ${e.message}"
-        // }
-        // return parsedResponse
+        echo "Response Body from code: ${response.content.toString()}" // Updated to use content.toString()       
 
         def parsedTeamsResponse = new JsonSlurper().parseText(response.content.toString()) as HashMap
         return parsedTeamsResponse
