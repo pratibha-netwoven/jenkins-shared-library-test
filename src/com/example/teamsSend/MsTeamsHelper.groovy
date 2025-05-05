@@ -57,7 +57,7 @@ class MsTeamsHelper {
 
         def jsonPayload = new groovy.json.JsonBuilder(payload).toPrettyString()
 
-        def response = httpRequest(
+        def response = httpRequestClosure(
             httpMode: 'POST',
             url: url,
             contentType: 'APPLICATION_JSON',
@@ -67,7 +67,7 @@ class MsTeamsHelper {
         )
 
         echo "Response Code: ${response.status}"
-        echo "Response Body from code: ${response}"
+        echo "Response Body from code: ${response.content.toString()}" // Updated to use content.toString()
 
         // Optionally parse JSON response
         // def parsedResponse = [:]
@@ -80,7 +80,7 @@ class MsTeamsHelper {
         // }
         // return parsedResponse
 
-        def parsedTeamsResponse = new JsonSlurper().parseText(response.content) as HashMap
+        def parsedTeamsResponse = new JsonSlurper().parseText(response.content.toString()) as HashMap
         return parsedTeamsResponse
     }
 
