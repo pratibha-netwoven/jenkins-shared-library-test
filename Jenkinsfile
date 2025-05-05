@@ -1,4 +1,4 @@
-@Library('pk-shared-lib')
+// @Library('pk-shared-lib')
 import groovy.json.JsonSlurper
 
 pipeline {
