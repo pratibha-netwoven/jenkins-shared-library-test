@@ -385,6 +385,7 @@ pipeline {
             echo 'This will always run'
         }
         success {
+             script {
             //slackSend( channel: slackResponse.threadId, color: 'good', message: ":large_green_circle: mlp-gcp-ops » ${env.GIT_BRANCH} #${BUILD_NUMBER} (<${RUN_DISPLAY_URL}|Open>)", timestamp: slackResponse.ts)
               def teamsHelper = new MsTeamsHelper()
               teamsHelper.teamsSend(
@@ -399,6 +400,7 @@ pipeline {
                         "mlp-gcp-ops » ${env.GIT_BRANCH} #${env.BUILD_NUMBER} (<${env.RUN_DISPLAY_URL}|Open>)",
                         { args -> httpRequest(args) } // Pass httpRequest as a closure
                     )
+             }
         }
        
     }
