@@ -193,6 +193,7 @@ pipeline {
                             // Clean_image(slackResponse, BUILD_PATH, IMAGE)            }
                     }
                 }
+                }
                 stage('mlp-tomcat9-jre8') {
                     environment {
                         BUILD_PATH = 'mlp-tomcat9-jre8'
@@ -373,11 +374,11 @@ pipeline {
                         }
                     }
             
-                    }    
+                }    
                 }
             }
         }
     
         
     }
-}
+
