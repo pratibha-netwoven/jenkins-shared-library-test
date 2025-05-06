@@ -372,55 +372,12 @@ pipeline {
                             // Clean_image(slackResponse, BUILD_PATH, IMAGE)
                         }
                     }
+            
+                    }    
                 }
             }
         }
-        // stage('Groovy Pipelines') {
-        //     agent {
-        //         docker {
-        //             image 'nvuillam/npm-groovy-lint:v15.1.0'
-        //             args '--entrypoint='
-        //             reuseNode true
-        //         }
-        //     }
-        //     when {
-        //         anyOf { changeset 'mlp-pipelines/**'; changeset 'Jenkinsfile' }
-        //     }
-        //     options {
-        //         timeout(time: 5, unit: 'MINUTES')
-        //     }
-        //     steps {
-        //         script {
-        //             precoslackResponse = slackSend(channel: slackResponse.threadId, color: '#2986cc', message: ':loading2: Groovy Lint Stages')
-        //             try {
-        //                 // sh 'npm-groovy-lint --version'
-        //                 sh 'npm-groovy-lint --failon=error **/*.groovy **/Jenkinsfile'
-        //                 slackSend(channel: slackResponse.threadId, color: 'good', message: ':large_green_circle: Groovy Lint Stages', timestamp: precoslackResponse.ts)
-        //             }
-        //             catch (exc) {
-        //                 slackSend(channel: slackResponse.threadId, color: 'danger', message: ':red_circle: Groovy Lint Stages', timestamp: precoslackResponse.ts)
-        //                 currentBuild.result = 'FAILURE'
-        //                 throw exc
-        //             }
-        //         }
-        //     }
-        // }
-    }
-    post {
-        always {
-            echo 'This will always run'
-        }
-        // success {
-        //     slackSend( channel: slackResponse.threadId, color: 'good', message: ":large_green_circle: mlp-gcp-ops » ${env.GIT_BRANCH} #${BUILD_NUMBER} (<${RUN_DISPLAY_URL}|Open>)", timestamp: slackResponse.ts)
-        // }
-        // failure {
-        //     slackSend( channel: slackResponse.threadId, color: 'danger', message: ":red_circle: mlp-gcp-ops » ${env.GIT_BRANCH} #${BUILD_NUMBER} (<${RUN_DISPLAY_URL}|Open>)", timestamp: slackResponse.ts)
-        // }
-        // unstable {
-        //     slackSend( channel: slackResponse.threadId, color: 'danger', message: ":large_orange_circle: mlp-gcp-ops » ${env.GIT_BRANCH} #${BUILD_NUMBER} (<${RUN_DISPLAY_URL}|Open>)", timestamp: slackResponse.ts)
-        // }
-        // changed {
-        //     slackSend( channel: slackResponse.threadId, color: 'warning', message: ":large_yellow_circle: mlp-gcp-ops » ${env.GIT_BRANCH} #${BUILD_NUMBER} (<${RUN_DISPLAY_URL}|Open>)", timestamp: slackResponse.ts)
-        // }
+    
+        
     }
 }
