@@ -125,13 +125,14 @@ pipeline {
         TEAMS_TEAM_NAME = 'Slack Transition Test Team'
         TEAMS_CHANNEL_NAME = 'TestReplyPostsUpdate'
         GIT_BRANCH = "main"
-        BUILD_NUMBER = "${cuerrentBuild.number}"
         RUN_DISPLAY_URL = "http://example.com/run"
     }
     stages {
         stage('Init pipeline') {
             steps {
                 script {
+                    def BUILD_NUMBER = currentBuild.number
+
                     def teamsHelper = new MsTeamsHelper()
                     slackResponse = teamsHelper.teamsSend(
                         "${env.TEAMS_WEBHOOK_URL}",
