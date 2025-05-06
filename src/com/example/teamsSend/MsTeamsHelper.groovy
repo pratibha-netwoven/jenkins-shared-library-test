@@ -2,7 +2,7 @@ import groovy.json.JsonBuilder
 import groovy.json.JsonSlurper
 
 class MsTeamsHelper {    
-     /**
+    /**
     * Sends a formatted Adaptive Card message to a Microsoft Teams channel via webhook anonymous.
     *
     * Usage:
