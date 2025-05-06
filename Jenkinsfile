@@ -126,7 +126,6 @@ pipeline {
         TEAMS_CHANNEL_NAME = 'TestReplyPostsUpdate'
         GIT_BRANCH = "main"
         RUN_DISPLAY_URL = "http://example.com/run"
-        BUILD_NUMBER = currentBuild.number
     }
     stages {
         stage('Init pipeline') {
@@ -387,7 +386,8 @@ pipeline {
         }
         success {
             //slackSend( channel: slackResponse.threadId, color: 'good', message: ":large_green_circle: mlp-gcp-ops » ${env.GIT_BRANCH} #${BUILD_NUMBER} (<${RUN_DISPLAY_URL}|Open>)", timestamp: slackResponse.ts)
-            teamsHelper.teamsSend(
+              def teamsHelper = new MsTeamsHelper()
+              teamsHelper.teamsSend(
                         "${env.TEAMS_WEBHOOK_URL}",
                         'post',
                         "${env.TEAMS_TEAM_NAME}",
