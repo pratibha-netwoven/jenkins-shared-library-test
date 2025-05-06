@@ -126,12 +126,13 @@ pipeline {
         TEAMS_CHANNEL_NAME = 'TestReplyPostsUpdate'
         GIT_BRANCH = "main"
         RUN_DISPLAY_URL = "http://example.com/run"
+        BUILD_NUMBER = currentBuild.number
     }
     stages {
         stage('Init pipeline') {
             steps {
                 script {
-                    def BUILD_NUMBER = currentBuild.number
+                    //def BUILD_NUMBER = currentBuild.number
 
                     def teamsHelper = new MsTeamsHelper()
                     slackResponse = teamsHelper.teamsSend(
@@ -143,7 +144,7 @@ pipeline {
                         '',
                         'loading',
                         'Build Notification from Jenkins',
-                        "Started mlp-gcp-ops » ${env.GIT_BRANCH} #${BUILD_NUMBER} (<${RUN_DISPLAY_URL}|Open>)",
+                        "Started mlp-gcp-ops » ${env.GIT_BRANCH} #${env.BUILD_NUMBER} (<${RUN_DISPLAY_URL}|Open>)",
                         { args -> httpRequest(args) } // Pass httpRequest as a closure
                     )
                     echo "Root Post Thread ID: ${slackResponse.threadId}"
@@ -157,7 +158,7 @@ pipeline {
             parallel {
                 stage('clamav') {
                     environment {
-                        BUILD_PATH = 'gcp-cos-clamav-2'
+                        BUILD_PATH = 'gcp-cos-clamav-3'
                         IMAGE = 'mlp-clamav'
                     }
                     when {
@@ -380,7 +381,27 @@ pipeline {
                 }
             }
         }
-    
+     post {
+        always {
+            echo 'This will always run'
+        }
+        success {
+            //slackSend( channel: slackResponse.threadId, color: 'good', message: ":large_green_circle: mlp-gcp-ops » ${env.GIT_BRANCH} #${BUILD_NUMBER} (<${RUN_DISPLAY_URL}|Open>)", timestamp: slackResponse.ts)
+            teamsHelper.teamsSend(
+                        "${env.TEAMS_WEBHOOK_URL}",
+                        'post',
+                        "${env.TEAMS_TEAM_NAME}",
+                        "${env.TEAMS_CHANNEL_NAME}",
+                        slackResponse.threadId,
+                        '',
+                        'success',
+                        'Build Notification from Jenkins',
+                        "mlp-gcp-ops » ${env.GIT_BRANCH} #${env.BUILD_NUMBER} (<${env.RUN_DISPLAY_URL}|Open>)",
+                        { args -> httpRequest(args) } // Pass httpRequest as a closure
+                    )
+        }
+       
+    }
         
     }
 
