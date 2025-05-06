@@ -157,11 +157,12 @@ pipeline {
             parallel {
                 stage('clamav') {
                     environment {
-                        BUILD_PATH = 'gcp-cos-clamav'
+                        BUILD_PATH = 'gcp-cos-clamav-2'
                         IMAGE = 'mlp-clamav'
                     }
                     when {
-                        changeset 'gcp-cos-clamav/**'
+                        //changeset 'gcp-cos-clamav/**'
+                         expression { true }
                     }
                     steps {
                         script {
